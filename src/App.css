@@ -5,38 +5,58 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+input {
+  font-size: 20px;
+  padding: 3px 5px;
+  outline: none;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+  width: 100%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+[type="checkbox"] {
+  box-sizing: border-box;
+  background-clip: content-box;
+  padding: 0.25em;
+  width: 1.3em;
+  height: 1.3em;
+  cursor: pointer;
+  accent-color: pink;
+  margin-right: 10px;
+}
+.container {
+  width: 100%;
+  height: 600px;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  padding: 10px 30px;
+}
+.todo-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+  gap: 10px;
+  height: 65%;
+  align-items: flex-start;
+  overflow-y: scroll;
 }
 
-.card {
-  padding: 2em;
+.add_btn {
+  background-color: pink;
+  margin: 0px 5px;
 }
 
-.read-the-docs {
-  color: #888;
+.todo-list {
+  display: flex;
+  justify-content: space-between;
+}
+
+.todo {
+  display: flex;
+  align-items: center;
 }

@@ -1,35 +1,118 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import PropTypes from "prop-types";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [todoList, setTodoList] = useState([
+    { id: 0, content: "123" },
+    { id: 1, content: "코딩 공부하기" },
+    { id: 2, content: "잠 자기" },
+  ]);
+
+  return (
+    <div className="container">
+      <h1>TodoList</h1>
+      <TodoList todoList={todoList} setTodoList={setTodoList} />
+      <hr />
+      <TodoInput todoList={todoList} setTodoList={setTodoList} />
+    </div>
+  );
+}
+
+function TodoInput({ todoList, setTodoList }) {
+  const [inputValue, setInputValue] = useState("");
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <input
+        className="font-size: 50px; padding: 6px 10px; outline: none;"
+        value={inputValue}
+        onChange={(event) => setInputValue(event.target.value)}
+      />
+      <button
+        className="add_btn"
+        onClick={() => {
+          const newTodo = { id: Number(new Date()), content: inputValue };
+          const newTodoList = [...todoList, newTodo];
+          setTodoList(newTodoList);
+          setInputValue("");
+        }}
+      >
+        추가하기
+      </button>
     </>
-  )
+  );
 }
 
-export default App
+function TodoList({ todoList, setTodoList }) {
+  return (
+    <ul className="todo-container">
+      {todoList.map((todo) => (
+        <Todo key={todo.id} todo={todo} setTodoList={setTodoList} />
+      ))}
+    </ul>
+  );
+}
+
+TodoList.propTypes = {
+  todoList: PropTypes.array.isRequired,
+  setTodoList: PropTypes.func.isRequired,
+};
+
+function Todo({ todo, setTodoList }) {
+  const [inputValue, setInputValue] = useState(todo.content);
+  const [edit, setEdit] = useState(false);
+  console.log(todo.content, inputValue);
+  return (
+    <li className="todo-list">
+      <div className="todo">
+        <input type="checkbox" id="check1" />
+        <span>{todo.content}</span>
+        {edit && (
+          <input
+            value={inputValue}
+            onChange={(event) => setInputValue(event.target.value)}
+          />
+        )}
+      </div>
+      <div>
+        <button
+          className="edit_btn"
+          onClick={() => {
+            setTodoList((prev) =>
+              prev.map((el) =>
+                el.id === todo.id ? { ...el, content: inputValue } : el
+              )
+            );
+            setEdit(!edit);
+          }}
+        >
+          {edit ? "저장" : "수정"}
+        </button>
+        <button
+          onClick={() => {
+            setTodoList((prev) => {
+              return prev.filter((el) => el.id !== todo.id);
+            });
+          }}
+        >
+          삭제
+        </button>
+      </div>
+    </li>
+  );
+}
+TodoInput.propTypes = {
+  todoList: PropTypes.array.isRequired,
+  setTodoList: PropTypes.func.isRequired,
+};
+
+Todo.propTypes = {
+  todo: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    content: PropTypes.string.isRequired,
+  }).isRequired,
+  setTodoList: PropTypes.func.isRequired,
+};
+
+export default App;
